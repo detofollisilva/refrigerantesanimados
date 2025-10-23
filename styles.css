@@ -1,0 +1,326 @@
+/* ----------------------------- */
+/* Estrutura dos itens */
+/* ----------------------------- */
+.item {
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--background), #000);
+    animation: bgPulse 6s ease-in-out infinite alternate;
+    transition: background 1s ease;
+}
+
+.item.active {
+    display: block;
+}
+
+/* ----------------------------- */
+/* Título — efeito neon e animações */
+/* ----------------------------- */
+.item .title {
+    font-size: 15rem;
+    color: #fff;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: bold;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    text-transform: uppercase;
+    letter-spacing: 10px;
+    opacity: 0;
+
+    /* Efeito neon */
+    text-shadow:
+        0 0 10px #fff,
+        0 0 20px #fff,
+        0 0 30px var(--background),
+        0 0 40px var(--background),
+        0 0 70px var(--background),
+        0 0 100px var(--background);
+
+    animation: neonPulse 2.5s ease-in-out infinite alternate;
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.item.active .title {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    animation: fadeInUp 1s ease forwards, neonPulse 2.5s ease-in-out infinite alternate;
+}
+
+/* ----------------------------- */
+/* Imagens das frutas e refrigerantes */
+/* ----------------------------- */
+.item .fruit {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    z-index: 3;
+    opacity: 0;
+    transform: scale(1.1);
+    transition: transform 1s ease, opacity 1s ease;
+}
+
+.item .refri {
+    width: 600px;
+    z-index: 2;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0;
+    transition: transform 1s ease, opacity 1s ease;
+}
+
+/* ----------------------------- */
+/* Direções de entrada personalizadas por fruta */
+/* ----------------------------- */
+.item:nth-child(1).active .fruit {
+    animation: enterLeft 1s ease forwards, floatY 4s ease-in-out infinite;
+}
+.item:nth-child(2).active .fruit {
+    animation: enterRight 1s ease forwards, floatY 4s ease-in-out infinite;
+}
+.item:nth-child(3).active .fruit {
+    animation: enterBottom 1s ease forwards, floatY 4s ease-in-out infinite;
+}
+
+/* Garrafa com fade e flutuação */
+.item.active .refri {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    animation: fadeIn 1.2s ease forwards, floatX 5s ease-in-out infinite;
+}
+
+/* ----------------------------- */
+/* Botões das setas */
+/* ----------------------------- */
+#prev,
+#next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    background-color: transparent;
+    border: 1px solid #eee9;
+    color: #eee9;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 100;
+    transition: all 0.3s ease;
+}
+
+#prev {
+    left: 30px;
+}
+
+#next {
+    right: 50px;
+}
+
+#prev:hover,
+#next:hover {
+    background-color: #eee9;
+    color: var(--background);
+    transform: translateY(-50%) scale(1.1);
+}
+
+/* ----------------------------- */
+/* Animações (keyframes) */
+/* ----------------------------- */
+
+/* Fundo gradiente pulsando */
+@keyframes bgPulse {
+    0% {
+        background: linear-gradient(135deg, var(--background), #000);
+    }
+    100% {
+        background: linear-gradient(135deg, #000, var(--background));
+    }
+}
+
+/* Brilho pulsante do neon */
+@keyframes neonPulse {
+    0% {
+        text-shadow:
+            0 0 5px #fff,
+            0 0 10px #fff,
+            0 0 20px var(--background),
+            0 0 40px var(--background),
+            0 0 60px var(--background),
+            0 0 80px var(--background);
+    }
+    100% {
+        text-shadow:
+            0 0 20px #fff,
+            0 0 40px #fff,
+            0 0 60px var(--background),
+            0 0 100px var(--background),
+            0 0 120px var(--background),
+            0 0 150px var(--background);
+    }
+}
+
+/* Fade + deslizar para o título */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -40%) scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* Entradas das frutas */
+@keyframes enterLeft {
+    0% {
+        opacity: 0;
+        transform: translateX(-100%) scale(1.2);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+@keyframes enterRight {
+    0% {
+        opacity: 0;
+        transform: translateX(100%) scale(1.2);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+@keyframes enterBottom {
+    0% {
+        opacity: 0;
+        transform: translateY(100%) scale(1.2);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Fade simples */
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+    100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+/* Flutuação suave (frutas e garrafas) */
+@keyframes floatY {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+@keyframes floatX {
+    0%, 100% { transform: translate(-50%, -50%) translateX(0); }
+    50% { transform: translate(-50%, -50%) translateX(10px); }
+}
+
+/* ----------------------------- */
+/* Responsividade */
+/* ----------------------------- */
+@media (max-width: 900px) {
+    .item .title {
+        font-size: 8rem;
+        letter-spacing: 5px;
+    }
+
+    .item .refri {
+        width: 350px;
+    }
+}
+
+@media (max-width: 600px) {
+    .item .title {
+        font-size: 4rem;
+    }
+
+    #prev, #next {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+}
+
+
+/* ----------------------------- */
+/* Bolhas de fundo */
+/* ----------------------------- */
+
+.item {
+    /* garante que as bolhas fiquem posicionadas dentro do item */
+    position: absolute; /* já tem isso, só conferência */
+}
+
+/* Container das bolhas (ocupando o item) */
+.item .bubbles {
+    position: absolute;
+    inset: 0;                /* top:0; right:0; bottom:0; left:0; */
+    pointer-events: none;    /* não atrapalha cliques */
+    overflow: hidden;
+    z-index: 0;              /* atrás de imagens/título (ajuste se necessário) */
+}
+
+/* Bolha individual */
+.item .bubbles .bubble {
+    position: absolute;
+    bottom: -120px; /* começa abaixo da vista */
+    border-radius: 50%;
+    opacity: 0.12;
+    transform: translateY(0) scale(1);
+    filter: blur(0.6px);
+    /* cor e brilho base; JS ajusta background/box-shadow */
+    background: rgba(255,255,255,0.06);
+    box-shadow: 0 0 18px rgba(255,255,255,0.06);
+    animation-name: bubbleRise;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+/* animação que sobe a bolha e some */
+@keyframes bubbleRise {
+    0% {
+        transform: translateY(0) scale(var(--start-scale, 1));
+        opacity: 0.12;
+    }
+    10% {
+        opacity: 0.18;
+    }
+    80% {
+        opacity: 0.06;
+    }
+    100% {
+        transform: translateY(-130vh) scale(var(--end-scale, 1.1));
+        opacity: 0;
+    }
+}
+
+/* responsividade: menos intensidade em telas pequenas */
+@media (max-width: 900px) {
+    .item .bubbles .bubble { opacity: 0.09; filter: blur(0.4px); }
+}
+
+@media (max-width: 600px) {
+    .item .bubbles .bubble { opacity: 0.07; filter: blur(0.3px); }
+}
+
+/* Ajuste de z-index para garantir posição do título e imagens por cima */
+.item .title { z-index: 4; }    /* título acima das bolhas */
+.item .refri  { z-index: 3; }   /* refri acima das bolhas */
+.item .fruit  { z-index: 5; }   /* fruta em destaque por cima de tudo */
